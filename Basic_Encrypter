@@ -1,0 +1,22 @@
+import sys
+alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+
+direction = input("Type 'encode' to encrypt, type 'decode' to decrypt:\n").lower()
+text = input("Type your message:\n").lower()
+shift = int(input("Type the shift number:\n"))
+
+def encrypt(direc, tex, shif):
+    message = ''
+    empty = []
+    for i in range(0, len(tex)):
+        empty.append(alphabet.index(tex[i]))
+    for i in range(0, len(tex)):
+        if direc == 'encode':
+            message += alphabet[empty[i] + shif]
+        elif direc == 'decode':
+            message += alphabet[empty[i] - shif]
+        else:
+            print('Error')
+            sys.exit()
+    print(message)
+encrypt(direction, text, shift)
