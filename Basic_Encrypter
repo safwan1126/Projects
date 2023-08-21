@@ -1,22 +1,25 @@
-import sys
-alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-
-direction = input("Type 'encode' to encrypt, type 'decode' to decrypt:\n").lower()
-text = input("Type your message:\n").lower()
-shift = int(input("Type the shift number:\n"))
+alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
 def encrypt(direc, tex, shif):
     message = ''
-    empty = []
-    for i in range(0, len(tex)):
-        empty.append(alphabet.index(tex[i]))
-    for i in range(0, len(tex)):
-        if direc == 'encode':
-            message += alphabet[empty[i] + shif]
-        elif direc == 'decode':
-            message += alphabet[empty[i] - shif]
+    for char in tex:
+        if char in alphabet:
+            shifted_index = (alphabet.index(char)) % 26
+            if direc == 'encode':
+                message += alphabet[shifted_index + shif]
+            elif direc == 'decode':
+                message += alphabet[shifted_index - shif]  # Subtract the shift here
         else:
-            print('Error')
-            sys.exit()
+            message += char
     print(message)
-encrypt(direction, text, shift)
+
+end = True
+while end:
+    end = False
+    direction = input("Type 'encode' to encrypt, type 'decode' to decrypt:\n").lower()
+    text = input("Type your message:\n").lower()
+    shift = int(input("Type the shift number:\n")) % 26
+    encrypt(direction, text, shift)
+    decision = input('Go again? Type yes: ')
+    if decision == 'yes':
+        end = True
