@@ -1,0 +1,48 @@
+def sum(a, b):
+    return a+b
+def minus(a, b):
+    return a - b
+def multiply(a, b):
+    return a * b
+def divide(a, b):
+    return a / b
+def calculation(num1, num2, operator):
+    if operator == '+':
+        return sum(num1, num2)
+    if operator == '-':
+        return minus(num1, num2)
+    if operator == '*':
+        return multiply(num1, num2)
+    if operator == '/':
+        return divide(num1, num2)
+
+result = 0
+yes = False
+no = True
+
+while True:
+    if no:
+        num1 = float(input('What is the first number?:\n'))
+        operator = input('Pick an operation:\n + \n - \n * \n /\n')
+        while operator not in '+-*/':
+            operator = input('Pick an operation:\n + \n - \n * \n /\n')
+        num2 = float(input('What is the second number?:\n'))
+        result = calculation(num1, num2, operator)
+        print(f'{num1} {operator} {num2} = {result}')
+    if yes:
+        operator = input('Pick an operation:\n + \n - \n * \n /\n')
+        while operator not in '+-*/':
+            operator = input('Pick an operation:\n + \n - \n * \n /\n')
+        num2 = float(input('What is the second number?:\n'))
+        prevResult = result
+        result = calculation(result, num2, operator)
+        print(f'{prevResult} {operator} {num2} = {result}')
+    carryOn = input(f'Carry on calculating with {result}? Type y for yes or no for new calculation: ').lower()
+    while carryOn not in 'yn':
+        carryOn = input(f'Carry on calculating with {result}? Type y for yes or n for new calculation: ').lower()
+    if carryOn == 'y':
+        yes = True
+        no = False
+    elif carryOn == 'n':
+        yes = False
+        no = True
