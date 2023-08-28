@@ -1,7 +1,3 @@
-#fix double ace print problem
-# make comments
-
-
 import random
 
 instructions = 'How to play Blackjack:\n\nIn each game of Blackjack, you are against the dealer and your goal is to ' \
