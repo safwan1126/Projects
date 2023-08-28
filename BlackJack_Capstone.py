@@ -1,3 +1,4 @@
+
 import random
 
 instructions = 'How to play Blackjack:\n\nIn each game of Blackjack, you are against the dealer and your goal is to ' \
@@ -7,18 +8,20 @@ instructions = 'How to play Blackjack:\n\nIn each game of Blackjack, you are aga
                'instantly. You will always start drawing first and you will draw 2 cards, if your\ntotal isn\'t ' \
                'already 21, you can choose to hit and carry on taking cards or stand. Every time you hit, the dealer' \
                ' takes another card as well and whoever\ngets above 21 loses. This is called a bust and remember, if ' \
-               'you draw above 21 first, you will lose. If you choose to stand, the dealer will keep on taking\ncards ' \
+               'you draw above 21 first, you will lose. If you choose to stand, the dealer will keep on taking\ncards '\
                'if their score is 16 or below or until he busts. Once turns end, whoever has the highest total with ' \
                'their cards will win. You start off with £1000\nand you bet in £100 intervals. If you win, you double' \
-               'your bet, if you draw you get your bet back and if you lose , you lose your bet. If you have no ' \
-               'money\nleft, you lose. This game was created by Safwan\n'
-
+               'your bet, if you draw you get your bet back and if you lose, you lose your bet. If you have no ' \
+               'money\nleft, you lose. The dealer is the computer and tends to be favourable probability-wise. ' \
+               'This game was created by Safwan\n'
 cards = {'Ace': [1, 11], 'Two': 2, 'Three': 3, 'Four': 4, 'Five': 5, 'Six': 6, 'Seven': 7, 'Eight': 8, 'Nine': 9,
-'Ten': 10, 'Jack': 10, 'King' : 10, 'Queen': 10}
+         'Ten': 10, 'Jack': 10, 'King': 10, 'Queen': 10}
 
-
+# Define the function to draw cards. If the drawn card is an ace,
+# ask the user to choose 1 or 11 unless 11 will make them lose.
 def draw_card(sum):
 
+    # Choose card at random
     card = random.choice(list(cards))
     value = 0
     if card == 'Ace' and sum < 11:
@@ -34,10 +37,12 @@ def draw_card(sum):
     else:
         value = cards[card]
         sum += value
+    # Return sum so far, value of card picked, and the card name
     return sum, value, card
 
 def opponent_draw(sum):
 
+    # Computer Randomly chooses a card
     card = random.choice(list(cards))
     value = 0
     if card == 'Ace' and sum < 11:
@@ -50,7 +55,7 @@ def opponent_draw(sum):
         sum += value
     return sum, value, card
 
-
+# Main Function to play the game
 def play():
     endGame = False
     playerSum = 0
@@ -60,16 +65,20 @@ def play():
         for i in range(draws):
             draws = 1
             playerSum, value, card = draw_card(playerSum)
-            if card[0] in 'AEIOU':
-                print(f'You drew an {card}, your total is now {playerSum} ')
+            # These lines print out what draw_card returned
+            if card == 'Ace':
+                print(f'Your total is now {playerSum}')
             else:
-                print(f'You drew a {card}, your total is now {playerSum} ')
-
+                if card[0] in 'AEIOU':
+                    print(f'You drew an {card}, your total is now {playerSum} ')
+                else:
+                    print(f'You drew a {card}, your total is now {playerSum} ')
+        # Check if player gets above 21
         if playerSum > 21:
             print('Bust! Dealer Wins')
             return playerSum, opponentSum
 
-        # Opponent's turn
+        # Dealer's turn
         opponentSum, value, card = opponent_draw(opponentSum)
         if card[0] in 'AEIOU':
             print(f'Opponent drew an {card}, their total is now {opponentSum} ')
@@ -78,7 +87,7 @@ def play():
         if opponentSum > 21:
             print('Bust! You win')
             return playerSum, opponentSum
-
+        # Ask player if they want to hit or stand
         carryOn = input('Type H to hit or S to stand: ').lower().replace(' ', '')
         while carryOn not in 'hs':
             carryOn = input('Please type either H to hit or S to stand: ').lower().replace(' ', '')
@@ -86,6 +95,7 @@ def play():
             endGame = False
         else:
             endGame = True
+    # Dealer will keep on drawing as long as his total is under 17
     while opponentSum < 17:
         opponentSum, value, card = opponent_draw(opponentSum)
         print(f'Opponent drew a {card}, their total is now {opponentSum} ')
@@ -93,7 +103,7 @@ def play():
         print('Bust! You win')
     return playerSum, opponentSum
 
-
+# Function to determine the winner and how much the player wins or loses
 def score(playerSum, opponentSum, bet):
     if playerSum > opponentSum and playerSum < 22:
         print(f'You won £{bet}\n')
@@ -111,7 +121,7 @@ def score(playerSum, opponentSum, bet):
     else:
         print('Push! you drew and won nothing\n')
         return int(0)
-
+# Initial parameters, beginning interface and how to play
 withdraw = False
 balance = 1000
 valid = False
@@ -119,9 +129,10 @@ print('Welcome to Blackjack!\n')
 ask = input('Press H for how to play or anything else to continue\n').lower().replace(' ','')
 if ask == 'h':
     print(instructions)
-
 name = input('Enter your name: ')
 print(f'You have £{balance}')
+
+# While loop which plays the game until the player stops or reaches a balance of £0
 while not withdraw:
     while True:
         betStr = (input(f'How much you do want to bet? Choose in £100 intervals: £').replace(' ', ''))
@@ -149,4 +160,5 @@ while not withdraw:
     if end == 'n':
         withdraw = True
         print(f'Congrats {name}, you walked away with £{balance}!')
+# End of the game
 input('Enter any key to end the programme: ')
