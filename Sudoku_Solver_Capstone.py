@@ -107,6 +107,10 @@ while True:
 
 print('')
 print_board(board)
+start_time = time.time()  # Record time to solve the board
 sudoku(board)
+end_time = time.time()
 print('\n ___________________ \n')
 print_board(board)
+runtime = end_time - start_time
+print(f"\nSudoku solving runtime: {runtime} seconds")
