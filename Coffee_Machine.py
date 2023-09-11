@@ -85,6 +85,11 @@ while True:
                        ', latte or cappuccino: ').lower().replace(' ', '')
         if choice in MENU:
             break
+        elif choice == 'report':
+            print(f"Water : {resources['water']} ml")
+            print(f"Milk : {resources['milk']} ml")
+            print(f"Coffee : {resources['coffee']} g")
+            print(f'Money : ${money}')
         else:
             print("That's not a valid option")
     money = insert()
